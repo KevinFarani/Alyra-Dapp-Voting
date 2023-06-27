@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 
+body {
+    background: black;
+}
+
 .debug *   {
     border: 1px solid red;
 }
