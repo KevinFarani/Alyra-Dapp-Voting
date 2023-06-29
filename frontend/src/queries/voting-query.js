@@ -1,30 +1,45 @@
 // import { ethers } from "ethers";
 
-import Voting from "../../../backend/artifacts/contracts/Voting.sol/Voting.json";
-import { ADDR_VOTING } from "constants/address";
+import { ABI_CONTRACT_VOTING, ADDR_VOTING } from "constants/web3";
+import { prepareWriteContract, writeContract, readContract } from "@wagmi/core";
+import { viemClient } from "./web3-query";
+import { parseAbiItem } from "viem";
 
-export const _getAccount = async () => {
-  if (typeof window !== "undefined" && typeof window.ethereum !== "undefined") {
-    try {
-      const result = await window.ethereum.request({
-        method: "eth_requestAccounts",
-      });
-      return result[0];
-    } catch (error) {
-      return error;
-    }
+export const _setterFuncVoting = async (funcName, args, getterFuncName) => {
+  try {
+    const { request } = await prepareWriteContract({
+      address: ADDR_VOTING,
+      abi: ABI_CONTRACT_VOTING,
+      functionName: funcName,
+      args: args,
+    });
+    const { hash } = await writeContract(request);
+
+    return hash;
+  } catch (error) {
+    console.log("error", error);
   }
 };
 
-export const _getProvider = async () => {
-  if (typeof window !== "undefined" && typeof window.ethereum !== "undefined") {
-    // const provider = new ethers.getDefaultProvider();
-    // return provider;
+export const _getterFuncVoting = async (funcName) => {
+  try {
+    const res = await readContract({
+      address: ADDR_VOTING,
+      abi: ABI_CONTRACT_VOTING,
+      functionName: funcName,
+    });
+    return res;
+  } catch (error) {
+    console.log("error", error);
   }
 };
 
-export const _getContractVoting = async () => {
-  // const provider = await _getProvider();
-  // const contract = await new ethers.Contract(ADDR_VOTING, Voting.abi, provider);
-  // return contract;
+export const _getEventsVoters = async () => {
+  const events = await viemClient.getLogs({
+    event: parseAbiItem("event VoterRegistered(address voterAddress)"),
+    fromBlock: 0n,
+    toBlock: "latest",
+  });
+  const voters = events.map((voter) => voter.args.voterAddress);
+  return voters;
 };

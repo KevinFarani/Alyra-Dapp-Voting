@@ -1,40 +1,30 @@
 "use client";
 import { Admin } from "components/Admin";
 import { Header } from "components/Header";
-import {
-  doWeb3Auth,
-  doWeb3ContractVoting,
-  useWeb3Dispatch,
-  useWeb3State,
-} from "context/web3";
+import { useAccount } from "wagmi";
+import { useWeb3Dispatch, useWeb3State } from "context/web3";
 import { _getAccount, _getContractVoting } from "queries/voting-query";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+// import { ethers } from "ethers";
+import { prepareWriteContract, writeContract, readContract } from "@wagmi/core";
+import { ABI_CONTRACT_VOTING, ADDR_VOTING } from "constants/web3";
+import { ListAddress } from "components/ListAddress";
 
 export default function Home() {
-  const { address, voting } = useWeb3State();
+  const { voting } = useWeb3State();
   const dispatch = useWeb3Dispatch();
+  const { isConnected, address } = useAccount();
 
-  useEffect(() => {
-    if (!address) {
-      doWeb3Auth(dispatch); // Récupérer l'address eth
-    } else {
-      // Si adrress on peux ...
-      doWeb3ContractVoting(dispatch); // Récupérer le contrat Voting
-    }
-  }, [address]);
-
-  console.log("address", address);
-  console.log("voting", voting);
+  useEffect(() => {}, [isConnected]);
 
   return (
-    <main className="flex flex-col">
+    <main className="flex flex-col px-5 box-border w-screen bg-gradient-to-l from-sky-800 to-sky-500 h-screen max-w-screen ">
       <Header />
       <h1>Voting dapp</h1>
       <Admin />
-      <div className="flex ">
-        Address User:
-        <span className="truncate  w-[80px]">{address}</span>
-      </div>
+
+      <ListAddress />
+
       <div className="flex ">
         Voting Contract:
         <span className="truncate  w-[80px]">{voting?.target}</span>

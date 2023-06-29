@@ -14,32 +14,20 @@ export const Web3DispatchContext = createContext();
 
 const initialState = {
   status: "idle",
-  address: null,
   voting: null,
   proposals: null,
   error: null,
 };
 
-// Fonction appelé au moment du rendu du DOM
-export const doWeb3Auth = async (dispatch) => {
-  dispatch({ status: "pending" });
-  try {
-    let address = await _getAccount();
-    dispatch({ address: address, status: "idle", error: null });
-  } catch (error) {
-    dispatch({ status: "error", error: "Error : Get Account" });
-  }
-};
-
-export const doWeb3ContractVoting = async (dispatch) => {
-  dispatch({ status: "pending" });
-  let voting = await _getContractVoting();
-  try {
-    dispatch({ voting, status: "idle", error: null });
-  } catch (error) {
-    dispatch({ status: "error", error: "Error : Get ContractVoting" });
-  }
-};
+// export const doWeb3ContractVoting = async (dispatch) => {
+//   dispatch({ status: "pending" });
+//   let voting = await _getContractVoting();
+//   try {
+//     dispatch({ voting, status: "idle", error: null });
+//   } catch (error) {
+//     dispatch({ status: "error", error: "Error : Get ContractVoting" });
+//   }
+// };
 
 // Mise à disposition des fonctions à réutiliser dans les components
 export const useWeb3State = () => {
