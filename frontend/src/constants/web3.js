@@ -5,10 +5,14 @@ import ABI from "../../../backend/artifacts/contracts/Voting.sol/Voting.json";
 export const ABI_CONTRACT_VOTING = ABI.abi;
 
 export const ENUMS_STATUS = [
-  "Registering Voters",
-  "Proposals Registration Started",
-  "Proposals Registration Ended",
-  "Voting Session Started",
-  "Voting Session Ended",
-  "Votes Tallied",
+  { title: "Registering Voters" },
+  {
+    title: "Proposals Registration Started",
+    setter: "startProposalsRegistering",
+  },
+  { title: "Proposals Registration Ended", setter: "endProposalsRegistering" },
+
+  { title: "Voting Session Started", setter: "startVotingSession" },
+  { title: "Voting Session Ended", setter: "endVotingSession" },
+  { title: "Votes Tallied", setter: "tallyVotes" },
 ];

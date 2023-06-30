@@ -43,3 +43,13 @@ export const _getEventsVoters = async () => {
   const voters = events.map((voter) => voter.args.voterAddress);
   return voters;
 };
+export const _getEventsProposals = async () => {
+  const events = await viemClient.getLogs({
+    event: parseAbiItem("event ProposalRegistered(uint proposalId)"),
+    fromBlock: 0n,
+    toBlock: "latest",
+  });
+  console.log("proposals", events);
+  const proposals = events.map((proposals) => proposals.args.proposalId);
+  return proposals;
+};
