@@ -4,9 +4,7 @@ async function main() {
   const voting = await hre.ethers.deployContract("Voting");
   await voting.waitForDeployment();
 
-  console.log(
-    `voting deployed to ${voting.target}`
-  );
+  console.log(`voting deployed to ${voting.target}`);
 }
 
 main().catch((error) => {
