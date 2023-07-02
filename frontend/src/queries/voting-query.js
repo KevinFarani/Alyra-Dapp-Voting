@@ -21,12 +21,13 @@ export const _setterFuncVoting = async (funcName, args, getterFuncName) => {
   }
 };
 
-export const _getterFuncVoting = async (funcName) => {
+export const _getterFuncVoting = async (funcName, args) => {
   try {
     const res = await readContract({
       address: ADDR_VOTING,
       abi: ABI_CONTRACT_VOTING,
       functionName: funcName,
+      args: args,
     });
     return res;
   } catch (error) {
@@ -49,7 +50,32 @@ export const _getEventsProposals = async () => {
     fromBlock: 0n,
     toBlock: "latest",
   });
-  console.log("proposals", events);
-  const proposals = events.map((proposals) => proposals.args.proposalId);
+
+  const proposals = events.map((proposals) =>
+    parseInt(proposals.args.proposalId)
+  );
   return proposals;
+};
+export const _getEventsVotes = async () => {
+  const events = await viemClient.getLogs({
+    event: parseAbiItem("event Voted(address voter, uint256 proposalId)"),
+    fromBlock: 0n,
+    toBlock: "latest",
+  });
+
+  return events;
+};
+
+export const _getProposals = async () => {
+  const proposals = await _getEventsProposals();
+  let arr = [];
+  // ? "<=" pour partir depuis la proposal genesis
+  for (let index = 0; index <= proposals.length; index++) {
+    const proposal = {
+      proposal: await _getterFuncVoting("getOneProposal", [index]),
+      id: index,
+    };
+    arr.push(proposal);
+  }
+  return arr;
 };

@@ -14,7 +14,9 @@ export const StatProposal = () => {
           <span style={{ "--value": proposals.length }}></span>
         </span>
       </div>
-      <div className={`stat-desc ${workflowStatus === 1 && "text-info"}`}>
+      <div
+        className={`stat-desc mt-auto ${workflowStatus === 1 && "text-info"}`}
+      >
         {workflowStatus === 1 ? "Registration open !" : "Proposals length"}
       </div>
       <div className="stat-figure text-primary">

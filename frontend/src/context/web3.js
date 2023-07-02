@@ -52,6 +52,7 @@ export const doWeb3Whitelist = async (dispatch) => {
 export const doWeb3Proposal = async (dispatch) => {
   dispatch({ status: "pending" });
   let proposals = await _getEventsProposals();
+
   try {
     dispatch({ proposals, status: "idle", error: null });
   } catch (error) {

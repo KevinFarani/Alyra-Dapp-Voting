@@ -1,41 +1,45 @@
 import { doWeb3Proposal, useWeb3Dispatch, useWeb3State } from "context/web3";
-import { _setterFuncVoting } from "queries/voting-query";
+import {
+  _getProposals,
+  _getterFuncVoting,
+  _setterFuncVoting,
+} from "queries/voting-query";
+
 import React, { useEffect, useState } from "react";
+
 import { useAccount } from "wagmi";
+import { v4 as uuidv4 } from "uuid";
 
 export const ListProposals = () => {
-  const [isInput, setIsInput] = useState("");
   const { isConnected, address } = useAccount();
-  const { proposals } = useWeb3State();
+  const { workflowStatus, voters } = useWeb3State();
   const dispatch = useWeb3Dispatch();
+
+  const [isInput, setIsInput] = useState("");
+  const [isProposals, setIsProposals] = useState([]);
+
   const handleClick = async () => {
-    const tx = await _setterFuncVoting("addProposal", [isInput]);
+    await _setterFuncVoting("addProposal", [isInput]);
     doWeb3Proposal(dispatch);
-    console.log("tx", tx);
+  };
+
+  const getProposals = async () => {
+    setIsProposals(await _getProposals());
   };
 
   useEffect(() => {
-    if (isConnected) {
+    if (isConnected && voters?.includes(address)) {
+      getProposals();
     }
   }, [isConnected]);
   return (
-    <div className="overflow-x-auto rounded-2xl  ">
-      <div className="join">
-        <div className="relative">
-          <textarea
-            placeholder={"Add a proposal"}
-            value={isInput}
-            className="textarea    textarea-bordered  textarea-xs w-full max-w-xs"
-            onChange={(e) => setIsInput(e.target.value)}
-          ></textarea>
-        </div>
-        <button className="join-item btn" onClick={handleClick}>
-          +
-        </button>
-      </div>
-      <table className="table shadows ">
+    <div className="overflow-x-auto  w-2/5  ">
+      <h1 className="text-white uppercase font-black text-right">
+        Proposals List
+      </h1>
+      <table className="table table-zebra border border-white/10 ">
         {/* head */}
-        <thead className="bg-zinc-600">
+        <thead className="">
           <tr>
             <th>#VoterId</th>
             <th>Address</th>
@@ -44,20 +48,40 @@ export const ListProposals = () => {
           </tr>
         </thead>
         <tbody>
-          {proposals?.map((voter, index) => (
-            <tr
-              key={voter}
-              className={`${index % 2 === 0 ? "bg-zinc-800" : "bg-zinc-900"}`}
-            >
-              {console.log("test", proposals)}
-              <th>{index}</th>
-              <td className={`${voter === address && "text-info"}`}>{voter}</td>
-              <td>Waiting start ...</td>
-              <td></td>
+          {voters?.includes?.(address) ? (
+            isProposals?.map((el, index) => (
+              <tr key={uuidv4()}>
+                <th>{el?.id}</th>
+                <td className={`${el?.id === address && "text-info"}`}>
+                  {el?.proposal?.description}
+                </td>
+                <td>{parseInt(el?.proposal?.voteCount)}</td>
+                <td></td>
+              </tr>
+            ))
+          ) : (
+            <tr className="font-black text-white text-center w-full my-4">
+              <th>You must be voter to see proposals</th>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
+      {workflowStatus === 1 && (
+        <div className="flex flex-col mt-5 w-full">
+          <textarea
+            placeholder={"Add a proposal"}
+            value={isInput}
+            className="textarea     textarea-bordered w-full  min-h-[10vh]"
+            onChange={(e) => setIsInput(e.target.value)}
+          ></textarea>
+          <button
+            className=" btn btn-success btn-sm w-fit ml-auto mt-5 btn-outline"
+            onClick={handleClick}
+          >
+            Add Proposal
+          </button>
+        </div>
+      )}
     </div>
   );
 };
