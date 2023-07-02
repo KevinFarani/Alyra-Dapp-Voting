@@ -5,6 +5,8 @@ import {
   _getContractVoting,
   _getEventsProposals,
   _getEventsVoters,
+  _getProposals,
+  _getVoter,
   _getterFuncVoting,
 } from "queries/voting-query";
 import { createContext, useContext, useReducer } from "react";
@@ -21,10 +23,8 @@ export const Web3DispatchContext = createContext();
 const initialState = {
   status: "idle",
   voters: [],
-
   owner: null,
   workflowStatus: null,
-  voting: null,
   proposals: [],
   error: null,
 };
@@ -42,9 +42,19 @@ export const doWeb3Owner = async (dispatch) => {
 export const doWeb3Whitelist = async (dispatch) => {
   dispatch({ status: "pending" });
   let voters = await _getEventsVoters();
-  try {
-    dispatch({ voters, status: "idle", error: null });
-  } catch (error) {
+  if (voters) {
+    try {
+      const arr = [];
+      for (let index = 0; index < voters.length; index++) {
+        const el = voters[index];
+        const voter = await _getVoter(el);
+        arr.push({ state: voter, id: index, address: el });
+      }
+      dispatch({ voters: arr, status: "idle", error: null });
+    } catch (error) {
+      dispatch({ voters, status: "idle", error: null });
+    }
+  } else {
     dispatch({ status: "error", error: "Error : Get Whitelist" });
   }
 };
@@ -53,9 +63,14 @@ export const doWeb3Proposal = async (dispatch) => {
   dispatch({ status: "pending" });
   let proposals = await _getEventsProposals();
 
-  try {
-    dispatch({ proposals, status: "idle", error: null });
-  } catch (error) {
+  if (proposals) {
+    try {
+      let _proposals = await _getProposals();
+      dispatch({ proposals: _proposals, status: "idle", error: null });
+    } catch (error) {
+      dispatch({ proposals, status: "idle", error: null });
+    }
+  } else {
     dispatch({ status: "error", error: "Error : Get Proposals" });
   }
 };

@@ -1,6 +1,12 @@
-import { doWeb3Proposal, useWeb3Dispatch, useWeb3State } from "context/web3";
+import {
+  doWeb3Proposal,
+  doWeb3Whitelist,
+  useWeb3Dispatch,
+  useWeb3State,
+} from "context/web3";
 import {
   _getProposals,
+  _getVoter,
   _getterFuncVoting,
   _setterFuncVoting,
 } from "queries/voting-query";
@@ -12,26 +18,37 @@ import { v4 as uuidv4 } from "uuid";
 
 export const ListProposals = () => {
   const { isConnected, address } = useAccount();
-  const { workflowStatus, voters } = useWeb3State();
+  const { workflowStatus, proposals, voters, owner } = useWeb3State();
   const dispatch = useWeb3Dispatch();
 
   const [isInput, setIsInput] = useState("");
-  const [isProposals, setIsProposals] = useState([]);
+  const [isVoted, setIsVoted] = useState(false);
 
-  const handleClick = async () => {
+  const handleProposal = async () => {
     await _setterFuncVoting("addProposal", [isInput]);
     doWeb3Proposal(dispatch);
   };
 
-  const getProposals = async () => {
-    setIsProposals(await _getProposals());
+  const handleVote = async (id) => {
+    await _setterFuncVoting("setVote", [id]);
+    doWeb3Whitelist(dispatch);
+    doWeb3Proposal(dispatch);
+  };
+
+  const doIsVote = async () => {
+    const voter = await _getVoter(address);
+    voter.hasVoted === true && setIsVoted(true);
   };
 
   useEffect(() => {
-    if (isConnected && voters?.includes(address)) {
-      getProposals();
+    let access = false;
+    voters.find((e) => (e.address === address ? (access = true) : null));
+
+    if (isConnected && access) {
+      doIsVote();
     }
-  }, [isConnected]);
+  }, [proposals]);
+
   return (
     <div className="overflow-x-auto  w-2/5  ">
       <h1 className="text-white uppercase font-black text-right">
@@ -48,15 +65,28 @@ export const ListProposals = () => {
           </tr>
         </thead>
         <tbody>
-          {voters?.includes?.(address) ? (
-            isProposals?.map((el, index) => (
+          {voters.find((e) => e.address === address) || owner === address ? (
+            proposals?.map((el, index) => (
               <tr key={uuidv4()}>
                 <th>{el?.id}</th>
                 <td className={`${el?.id === address && "text-info"}`}>
                   {el?.proposal?.description}
                 </td>
-                <td>{parseInt(el?.proposal?.voteCount)}</td>
-                <td></td>
+                <td>
+                  {el?.proposal
+                    ? parseInt(el?.proposal?.voteCount)
+                    : "Only voter can watch proposals"}
+                </td>
+                <td className=" flex justify-end">
+                  {!isVoted && workflowStatus === 3 && (
+                    <button
+                      className="ml-auto btn btn-outline btn-success btn-xs"
+                      onClick={() => handleVote(el?.id)}
+                    >
+                      Vote
+                    </button>
+                  )}
+                </td>
               </tr>
             ))
           ) : (
@@ -66,7 +96,7 @@ export const ListProposals = () => {
           )}
         </tbody>
       </table>
-      {workflowStatus === 1 && (
+      {workflowStatus === 1 && voters.find((e) => e.address === address) && (
         <div className="flex flex-col mt-5 w-full">
           <textarea
             placeholder={"Add a proposal"}
@@ -76,7 +106,7 @@ export const ListProposals = () => {
           ></textarea>
           <button
             className=" btn btn-success btn-sm w-fit ml-auto mt-5 btn-outline"
-            onClick={handleClick}
+            onClick={handleProposal}
           >
             Add Proposal
           </button>

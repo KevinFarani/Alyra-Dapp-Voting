@@ -5,7 +5,7 @@ import { prepareWriteContract, writeContract, readContract } from "@wagmi/core";
 import { viemClient } from "./web3-query";
 import { parseAbiItem } from "viem";
 
-export const _setterFuncVoting = async (funcName, args, getterFuncName) => {
+export const _setterFuncVoting = async (funcName, args) => {
   try {
     const { request } = await prepareWriteContract({
       address: ADDR_VOTING,
@@ -33,6 +33,11 @@ export const _getterFuncVoting = async (funcName, args) => {
   } catch (error) {
     console.log("error", error);
   }
+};
+
+export const _getVoter = async (address) => {
+  const voter = await _getterFuncVoting("getVoter", [address]);
+  return voter;
 };
 
 export const _getEventsVoters = async () => {
@@ -71,11 +76,12 @@ export const _getProposals = async () => {
   let arr = [];
   // ? "<=" pour partir depuis la proposal genesis
   for (let index = 0; index <= proposals.length; index++) {
-    const proposal = {
+    const element = {
       proposal: await _getterFuncVoting("getOneProposal", [index]),
       id: index,
     };
-    arr.push(proposal);
+
+    arr.push(element);
   }
   return arr;
 };

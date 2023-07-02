@@ -45,17 +45,21 @@ export const StatAdmin = () => {
         >
           {address === owner ? (
             <div className="join">
-              <button
-                className="btn join-item btn-xs  btn-success btn-outline text-[9px] "
-                onClick={() =>
-                  handleClick(ENUMS_STATUS?.[workflowStatus + 1]?.setter)
-                }
-              >
-                Open :
-                <span className="ml-1 text-white">
-                  {ENUMS_STATUS?.[workflowStatus + 1]?.title}
-                </span>
-              </button>
+              {workflowStatus < ENUMS_STATUS.length - 1 ? (
+                <button
+                  className="btn join-item btn-xs  btn-success btn-outline text-[9px] "
+                  onClick={() =>
+                    handleClick(ENUMS_STATUS?.[workflowStatus + 1]?.setter)
+                  }
+                >
+                  Open :
+                  <span className="ml-1 text-white">
+                    {ENUMS_STATUS?.[workflowStatus + 1]?.title}
+                  </span>
+                </button>
+              ) : (
+                <div className="btn btn-xs btn-error btn-outline">Closed</div>
+              )}
             </div>
           ) : (
             <>

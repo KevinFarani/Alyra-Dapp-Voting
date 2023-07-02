@@ -34,7 +34,7 @@ export default function Home() {
   const unwatchVoter = viemClient.watchEvent({
     address: ADDR_VOTING,
     event: parseAbiItem("event VoterRegistered(address voterAddress)"),
-    onLogs: (logs) =>
+    onLogs: (logs) => {
       setEvent(
         <Alert
           title={
@@ -49,14 +49,16 @@ export default function Home() {
           style={"alert-success text-white"}
           icon={"clarity:new-solid"}
         />
-      ),
+      );
+      doWeb3Whitelist(dispatch);
+    },
   });
   const unwatchState = viemClient.watchEvent({
     address: ADDR_VOTING,
     event: parseAbiItem(
       "event WorkflowStatusChange(uint8 previousStatus, uint8 newStatus)"
     ),
-    onLogs: (logs) =>
+    onLogs: (logs) => {
       setEvent(
         <Alert
           title={
@@ -75,12 +77,14 @@ export default function Home() {
           style={"alert-success text-white"}
           icon={"clarity:new-solid"}
         />
-      ),
+      );
+      doWeb3WorkflowStatus(dispatch);
+    },
   });
   const unwatchProposal = viemClient.watchEvent({
     address: ADDR_VOTING,
     event: parseAbiItem("event ProposalRegistered(uint256 proposalId)"),
-    onLogs: (logs) =>
+    onLogs: (logs) => {
       setEvent(
         <Alert
           title={
@@ -95,16 +99,16 @@ export default function Home() {
           style={"alert-success text-white"}
           icon={"clarity:new-solid"}
         />
-      ),
+      );
+      doWeb3Proposal(dispatch);
+    },
   });
 
   useEffect(() => {
-    // ! Pour intercepter les events de la blockchain
-    // ! Pas sure que ce soit une bonne pratique - Léger bug remarqué
-    unwatchVoter();
-    unwatchState();
-    unwatchProposal();
-    // ! ----
+    unwatchVoter;
+    unwatchState;
+    unwatchProposal;
+
     doWeb3Owner(dispatch);
     doWeb3Whitelist(dispatch);
     doWeb3WorkflowStatus(dispatch);
@@ -115,10 +119,9 @@ export default function Home() {
     <main className="flex flex-col px-5 box-border border-box w-screen  items-center overflow-x-hidden border-box  bg-zinc-950 min-h-screen max-w-screen ">
       <Header />
       <div className="flex flex-col items-center w-[98%] justify-between  border border-white/10  rounded-lg shadow py-4">
-        <div className=" mb-5">
-          <Admin />
-        </div>
-        <div className=" mb-5 w-[98%] min-h-[50vh] flex justify-between">
+        <Admin />
+
+        <div className=" my-5 w-[98%] min-h-[50vh] flex justify-between">
           <ListAddress />
           <div className="divider text-secondary divider-horizontal">
             {isConnected ? (

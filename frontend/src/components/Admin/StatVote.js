@@ -1,9 +1,11 @@
 import { Icon } from "@iconify/react";
+import { useWeb3State } from "context/web3";
 import { _getEventsVoters, _getEventsVotes } from "queries/voting-query";
 import React, { useEffect, useState } from "react";
 
 export const StatVote = () => {
   const [isLength, setIsLength] = useState(null);
+  const { proposals, voters } = useWeb3State();
   const getVotes = async () => {
     const votes = await _getEventsVotes();
     setIsLength(votes.length);
@@ -11,7 +13,7 @@ export const StatVote = () => {
 
   useEffect(() => {
     getVotes();
-  }, []);
+  }, [proposals, voters]);
 
   return (
     <div className="stat">

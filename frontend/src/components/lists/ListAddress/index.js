@@ -1,7 +1,8 @@
 import { useWeb3State } from "context/web3";
 import React, { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
-
+import { ElementAddress } from "./ElementAddress";
+import { v4 as uuidv4 } from "uuid";
 export const ListAddress = () => {
   const { address } = useAccount();
   const { voters } = useWeb3State();
@@ -13,22 +14,14 @@ export const ListAddress = () => {
         {/* head */}
         <thead className="">
           <tr>
+            <th></th>
             <th>Address</th>
             <th>Vote</th>
-            <th></th>
           </tr>
         </thead>
         <tbody>
           {voters?.map((voter, index) => (
-            <tr
-              key={voter}
-              // className={`${index % 2 === 0 ? "bg-zinc-800" : "bg-zinc-900"}`}
-            >
-              <th>{index}</th>
-              <td className={`${voter === address && "text-info"}`}>{voter}</td>
-              <td>Waiting start ...</td>
-              <td></td>
-            </tr>
+            <ElementAddress key={uuidv4()} index={index} voter={voter} />
           ))}
         </tbody>
       </table>

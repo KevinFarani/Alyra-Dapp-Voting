@@ -1,4 +1,5 @@
 import { Icon } from "@iconify/react";
+import { Alert } from "components/Alert";
 import { doWeb3Whitelist, useWeb3Dispatch, useWeb3State } from "context/web3";
 import { _getEventsVoters, _setterFuncVoting } from "queries/voting-query";
 import React, { useEffect, useState } from "react";
@@ -7,13 +8,29 @@ import { useAccount } from "wagmi";
 export const StatWhitelist = () => {
   const [value, setValue] = useState("");
 
+  const [event, setEvent] = useState(null);
+
   const { address } = useAccount();
   const dispatch = useWeb3Dispatch();
   const { voters, workflowStatus, owner } = useWeb3State();
 
   const handleClick = async () => {
-    await _setterFuncVoting("addVoter", [value]);
-    doWeb3Whitelist(dispatch);
+    const hash = await _setterFuncVoting("addVoter", [value]);
+    if (hash) {
+      doWeb3Whitelist(dispatch);
+      setValue("");
+    } else {
+      setEvent(
+        <Alert
+          icon={"clarity:warning-line"}
+          title={
+            "Oups ... Something went wrong ! Please verified address and if is not already whitelisted"
+          }
+          setter={setEvent}
+          style={"alert-error text-white"}
+        />
+      );
+    }
   };
 
   return (
@@ -43,11 +60,14 @@ export const StatWhitelist = () => {
 
       <div
         className={`stat-figure ${
-          voters.includes(address) ? "text-success" : "text-error"
+          voters.find((e) => e.address === address)
+            ? "text-success"
+            : "text-error"
         }`}
       >
         <Icon icon="clarity:list-solid" className="text-2xl" />
       </div>
+      {event && event}
     </div>
   );
 };

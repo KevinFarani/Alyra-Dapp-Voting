@@ -14,7 +14,7 @@ export const Admin = () => {
   const { isConnected, address } = useAccount();
 
   return (
-    <div className="stats  shadow w-fit ">
+    <div className="stats  shadow w-[90%]  ">
       <StatAdmin />
       <StatWhitelist />
       <StatProposal />
