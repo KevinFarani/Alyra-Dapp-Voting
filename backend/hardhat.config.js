@@ -1,6 +1,5 @@
 require("@nomicfoundation/hardhat-toolbox");
 require("dotenv").config();
-require("@nomiclabs/hardhat-etherscan");
 
 const private_key = process.env.PRIVATE_KEY || "";
 const rcp_id = process.env.RCP_ID || "";
