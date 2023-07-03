@@ -8,13 +8,13 @@ export const ElementAddress = ({ voter, index }) => {
   const { proposals, voters } = useWeb3State();
 
   return (
-    <tr>
+    <tr className={`${voter.address === address && "bg-primary"}`}>
       <th>
         {voter?.state?.hasVoted === true && (
           <Icon icon="ph:check-fill" className="text-success text-2xl" />
         )}
       </th>
-      <td className={`${voter.address === address && "text-info"} w-[20px]`}>
+      <td className={` text-white w-[20px]`}>
         <span className="truncate w-[30px]">{voter?.address || voter}</span>
       </td>
       <td>

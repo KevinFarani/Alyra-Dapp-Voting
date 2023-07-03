@@ -23,6 +23,7 @@ import { ADDR_VOTING, ENUMS_STATUS } from "constants/web3";
 import { parseAbiItem } from "viem";
 import { viemClient } from "queries/web3-query";
 import { Alert } from "components/Alert";
+import { Steps } from "components/Steps";
 
 export default function Home() {
   const dispatch = useWeb3Dispatch();
@@ -116,11 +117,12 @@ export default function Home() {
   }, [isConnected]);
 
   return (
-    <main className="flex flex-col px-5 box-border border-box w-screen  items-center overflow-x-hidden border-box  bg-zinc-950 min-h-screen max-w-screen ">
+    // <main className="flex flex-col  box-border border-box w-screen  items-center overflow-x-hidden border-box bg-gradient-to-r to-neutral-800 from-zinc-800 min-h-screen max-w-screen ">
+    <main className="flex flex-col  box-border border-box w-screen  bg-zinc-900 items-center overflow-x-hidden border-box  min-h-screen max-w-screen ">
       <Header />
-      <div className="flex flex-col items-center w-[98%] justify-between  border border-white/10  rounded-lg shadow py-4">
+      <div className="flex flex-col mt-5 items-center w-[98%] justify-between  border border-white/10  rounded-lg shadow py-4">
         <Admin />
-
+        <Steps />
         <div className=" my-5 w-[98%] min-h-[50vh] flex justify-between">
           <ListAddress />
           <div className="divider text-secondary divider-horizontal">
