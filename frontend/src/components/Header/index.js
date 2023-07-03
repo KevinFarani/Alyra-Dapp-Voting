@@ -11,7 +11,7 @@ export const Header = () => {
           <Icon icon={"ic:outline-how-to-vote"} className="text-[40px] mr-5" />
           Voting
         </h1>
-        <span className="text-[7px] text-grey">{ADDR_VOTING}</span>
+        <span className="text-[7px] text-white">{ADDR_VOTING}</span>
       </div>
       <div className="">
         <ConnectButton />

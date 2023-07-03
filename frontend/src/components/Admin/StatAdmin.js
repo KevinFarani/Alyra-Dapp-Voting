@@ -53,7 +53,7 @@ export const StatAdmin = () => {
                   }
                 >
                   Open :
-                  <span className="ml-1 text-white">
+                  <span className="ml-1 text-grey">
                     {ENUMS_STATUS?.[workflowStatus + 1]?.title}
                   </span>
                 </button>

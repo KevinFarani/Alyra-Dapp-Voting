@@ -75,7 +75,7 @@ export const _getProposals = async () => {
   const proposals = await _getEventsProposals();
   let arr = [];
   // ? "<=" pour partir depuis la proposal genesis
-  for (let index = 0; index <= proposals.length; index++) {
+  for (let index = 1; index <= proposals.length; index++) {
     const element = {
       proposal: await _getterFuncVoting("getOneProposal", [index]),
       id: index,

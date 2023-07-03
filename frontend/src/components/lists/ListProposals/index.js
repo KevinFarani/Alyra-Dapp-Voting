@@ -54,20 +54,22 @@ export const ListProposals = () => {
       <h1 className="text-white uppercase font-black text-right">
         Proposals List
       </h1>
-      <table className="table table-zebra border border-white/10 ">
+      <table className="table border border-white/10 ">
         {/* head */}
-        <thead className="">
+        <thead className="text-accent">
           <tr>
-            <th>#VoterId</th>
-            <th>Address</th>
-            <th>Vote</th>
+            <th>#ProposalId</th>
+            <th>Description</th>
+            <th>Vote(s)</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
           {voters.find((e) => e.address === address) || owner === address ? (
             proposals?.map((el, index) => (
-              <tr key={uuidv4()}>
+              <tr key={uuidv4()}
+                  className={`${index % 2 === 0 ? "bg-base-100 text-zinc-900" : "bg-zinc-900 text-base-100"}`}
+              >
                 <th>{el?.id}</th>
                 <td className={`${el?.id === address && "text-info"}`}>
                   {el?.proposal?.description}

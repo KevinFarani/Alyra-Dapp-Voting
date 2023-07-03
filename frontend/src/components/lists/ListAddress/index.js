@@ -10,9 +10,9 @@ export const ListAddress = () => {
   return (
     <div className="overflow-x-auto w-2/5">
       <h1 className="text-white uppercase font-black">Voter List</h1>{" "}
-      <table className="table  table-zebra border border-white/10 ">
+      <table className="table border border-white/10 ">
         {/* head */}
-        <thead className="">
+        <thead className="text-accent">
           <tr>
             <th></th>
             <th>Address</th>
