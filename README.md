@@ -12,11 +12,14 @@ Une vidéo de démonstration est disponible ici : https://youtu.be/4GV2gbD0Bj8
 
 Vous pouve utiliser l'application en vous rendant ici : https://alyra-dapp-voting.vercel.app/
 
+Veuillez nous envoyer vos adresses de test par email/discord afin que nous puissions vous enregistrer en tant que voter et démarrer une session.
+
 ## Utilisation locale
 
 ### Prérequis
 - Hardat + Dépendances
 - NextJS + Dépendances
+- Mettre en service le code commenté et préfixé par **USE FOR LOCAL BLOCKCHAIN**
 
 ### Démarrage
 
