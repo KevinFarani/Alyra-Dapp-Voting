@@ -2,7 +2,7 @@
 
 Bienvenue dans notre application décentralisée de voting ! Cette application permet de mettre en place un système de vote simplifié pour une petite organisation.
 
-Nous avons choisi d'utiliser **Hardhat** pour la partie backend et **NextJs** pour le frontend.
+Nous avons choisi d'utiliser **Hardhat** pour la partie backend et **NextJs** pour le frontend, le tout soupoudré d'une poudre de perlimpinpin **DaisyUI**.
 
 ## Video
 
