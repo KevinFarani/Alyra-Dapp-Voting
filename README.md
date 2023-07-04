@@ -10,7 +10,7 @@ Une vidéo de démonstration est disponible ici : https://youtu.be/4GV2gbD0Bj8
 
 ## Utilisation immédiate
 
-Vous pouve utiliser l'application en vous rendant ici : 
+Vous pouve utiliser l'application en vous rendant ici : https://alyra-dapp-voting.vercel.app/
 
 ## Utilisation locale
 
