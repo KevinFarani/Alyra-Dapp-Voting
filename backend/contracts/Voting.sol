@@ -1,11 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.20;
 
-<<<<<<< HEAD
 import "../node_modules/@openzeppelin/contracts/access/Ownable.sol";
-=======
-import "@openzeppelin/contracts/access/Ownable.sol";
->>>>>>> front
 
 /// @title Voting Contract
 /// @author Alyra team

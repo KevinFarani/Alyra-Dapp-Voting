@@ -43,7 +43,9 @@ export const _getVoter = async (address) => {
 export const _getEventsVoters = async () => {
   const events = await viemClient.getLogs({
     event: parseAbiItem("event VoterRegistered(address voterAddress)"),
-    fromBlock: 0n,
+    // USE LOCAL BLOCKCHAIN
+    // fromBlock: 0n,
+    fromBlock: 9286396n,
     toBlock: "latest",
   });
   const voters = events.map((voter) => voter.args.voterAddress);
@@ -52,7 +54,9 @@ export const _getEventsVoters = async () => {
 export const _getEventsProposals = async () => {
   const events = await viemClient.getLogs({
     event: parseAbiItem("event ProposalRegistered(uint proposalId)"),
-    fromBlock: 0n,
+    // USE LOCAL BLOCKCHAIN
+    // fromBlock: 0n,
+    fromBlock: 9286396n,
     toBlock: "latest",
   });
 
@@ -64,7 +68,9 @@ export const _getEventsProposals = async () => {
 export const _getEventsVotes = async () => {
   const events = await viemClient.getLogs({
     event: parseAbiItem("event Voted(address voter, uint256 proposalId)"),
-    fromBlock: 0n,
+    // USE LOCAL BLOCKCHAIN
+    // fromBlock: 0n,
+    fromBlock: 9286396n,
     toBlock: "latest",
   });
 
