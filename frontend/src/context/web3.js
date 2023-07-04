@@ -64,9 +64,10 @@ export const doWeb3Proposal = async (dispatch) => {
   let proposals = await _getEventsProposals();
 
   if (proposals) {
+    let _proposals = await _getProposals();
+    dispatch({ proposals: _proposals, status: "idle", error: null });
     try {
-      let _proposals = await _getProposals();
-      dispatch({ proposals: _proposals, status: "idle", error: null });
+
     } catch (error) {
       dispatch({ proposals, status: "idle", error: null });
     }

@@ -37,7 +37,7 @@ export const ListProposals = () => {
 
   const doIsVote = async () => {
     const voter = await _getVoter(address);
-    voter.hasVoted === true && setIsVoted(true);
+    setIsVoted(voter?.hasVoted);
   };
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export const ListProposals = () => {
     if (isConnected && access) {
       doIsVote();
     }
-  }, [proposals]);
+  }, [address, proposals]);
 
   return (
     <div className="overflow-x-auto  w-2/5  ">
@@ -64,39 +64,41 @@ export const ListProposals = () => {
             <th></th>
           </tr>
         </thead>
-        <tbody>
-          {voters.find((e) => e.address === address) || owner === address ? (
-            proposals?.map((el, index) => (
-              <tr key={uuidv4()}
-                  className={`${index % 2 === 0 ? "bg-base-100 text-zinc-900" : "bg-zinc-900 text-base-100"}`}
-              >
-                <th>{el?.id}</th>
-                <td className={`${el?.id === address && "text-info"}`}>
-                  {el?.proposal?.description}
-                </td>
-                <td>
-                  {el?.proposal
-                    ? parseInt(el?.proposal?.voteCount)
-                    : "Only voter can watch proposals"}
-                </td>
-                <td className=" flex justify-end">
-                  {!isVoted && workflowStatus === 3 && (
-                    <button
-                      className="ml-auto btn btn-outline btn-success btn-xs"
-                      onClick={() => handleVote(el?.id)}
-                    >
-                      Vote
-                    </button>
-                  )}
-                </td>
+        {workflowStatus >= 1 && (
+          <tbody>
+            {voters.find((e) => e.address === address) || owner === address ? (
+              proposals?.map((el, index) => (
+                <tr key={uuidv4()}
+                    className={`${index % 2 === 0 ? "bg-base-100 text-zinc-900" : "bg-zinc-900 text-base-100"}`}
+                >
+                  <th>{el?.id}</th>
+                  <td className={`${el?.id === address && "text-info"}`}>
+                    {el?.proposal?.description}
+                  </td>
+                  <td>
+                    {voters.find((e) => e.address === address)
+                      ? parseInt(el?.proposal?.voteCount)
+                      : "Only voter can see proposals"}
+                  </td>
+                  <td className=" flex justify-end">
+                    {!isVoted && workflowStatus === 3 && (
+                      <button
+                        className="ml-auto btn btn-outline btn-success btn-xs"
+                        onClick={() => handleVote(el?.id)}
+                      >
+                        Vote
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr className="font-black text-white text-center w-full my-4">
+                <th>You must be voter to see proposals</th>
               </tr>
-            ))
-          ) : (
-            <tr className="font-black text-white text-center w-full my-4">
-              <th>You must be voter to see proposals</th>
-            </tr>
-          )}
-        </tbody>
+            )}
+          </tbody>
+        )}
       </table>
       {workflowStatus === 1 && voters.find((e) => e.address === address) && (
         <div className="flex flex-col mt-5 w-full">

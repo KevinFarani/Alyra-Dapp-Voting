@@ -26,7 +26,7 @@ export const StatAdmin = () => {
         <div className="stat-value truncate text-primary  text-[15px] w-[100px]">
           {owner}
         </div>
-        <div className={`stat-desc ${owner === address && "text-success"}`}>
+        <div className={`stat-desc ${owner === address ? "text-success" : "invisible"}`}>
           Owner voting contract
         </div>
         <div className="stat-figure text-primary">
@@ -64,7 +64,7 @@ export const StatAdmin = () => {
           ) : (
             <>
               Waiting :{" "}
-              <span className="text-white">
+              <span className="text-grey">
                 {ENUMS_STATUS?.[workflowStatus + 1]?.title}
               </span>
             </>
