@@ -1,6 +1,6 @@
 // import { ethers } from "ethers";
 
-import { ABI_CONTRACT_VOTING, ADDR_VOTING } from "constants/web3";
+import { ABI_CONTRACT_VOTING, ADDR_VOTING, HASH_BLOCK_EVENTS } from "constants/web3";
 import { prepareWriteContract, writeContract, readContract } from "@wagmi/core";
 import { viemClient } from "./web3-query";
 import { parseAbiItem } from "viem";
@@ -45,7 +45,8 @@ export const _getEventsVoters = async () => {
     event: parseAbiItem("event VoterRegistered(address voterAddress)"),
     // USE LOCAL BLOCKCHAIN
     // fromBlock: 0n,
-    blockHash: '0xfdfb7c33aa077a0e48753b3f5b0e72237c7692ccb0e4542686a82da388d3d8ea'
+    // toBlock : "latest"
+    blockHash: HASH_BLOCK_EVENTS
   });
   const voters = events.map((voter) => voter.args.voterAddress);
   return voters;
@@ -55,7 +56,8 @@ export const _getEventsProposals = async () => {
     event: parseAbiItem("event ProposalRegistered(uint proposalId)"),
     // USE LOCAL BLOCKCHAIN
     // fromBlock: 0n,
-    blockHash: '0xfdfb7c33aa077a0e48753b3f5b0e72237c7692ccb0e4542686a82da388d3d8ea'
+    // toBlock : "latest"
+    blockHash: HASH_BLOCK_EVENTS
   });
 
   const proposals = events.map((proposals) =>
@@ -68,7 +70,8 @@ export const _getEventsVotes = async () => {
     event: parseAbiItem("event Voted(address voter, uint256 proposalId)"),
     // USE LOCAL BLOCKCHAIN
     // fromBlock: 0n,
-    blockHash: '0xfdfb7c33aa077a0e48753b3f5b0e72237c7692ccb0e4542686a82da388d3d8ea'
+    // toBlock : "latest"
+    blockHash: HASH_BLOCK_EVENTS
   });
 
   return events;
