@@ -66,7 +66,7 @@ export const ListProposals = () => {
         </thead>
         {workflowStatus >= 1 && (
           <tbody>
-            {voters.find((e) => e.address === address) || owner === address ? (
+            {voters?.find((e) => e.address === address) || owner === address ? (
               proposals?.map((el, index) => (
                 <tr key={uuidv4()}
                     className={`${index % 2 === 0 ? "bg-base-100 text-zinc-900" : "bg-zinc-900 text-base-100"}`}
@@ -76,7 +76,7 @@ export const ListProposals = () => {
                     {el?.proposal?.description}
                   </td>
                   <td>
-                    {voters.find((e) => e.address === address)
+                    {voters?.find((e) => e.address === address)
                       ? parseInt(el?.proposal?.voteCount)
                       : "Only voter can see proposals"}
                   </td>
@@ -100,7 +100,7 @@ export const ListProposals = () => {
           </tbody>
         )}
       </table>
-      {workflowStatus === 1 && voters.find((e) => e.address === address) && (
+      {workflowStatus === 1 && voters?.find((e) => e.address === address) && (
         <div className="flex flex-col mt-5 w-full">
           <textarea
             placeholder={"Add a proposal"}
