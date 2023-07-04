@@ -6,7 +6,7 @@ Nous avons choisi d'utiliser **Hardhat** pour la partie backend et **NextJs** po
 
 ## Video
 
-Une vidéo de démonstration est disponible ici : 
+Une vidéo de démonstration est disponible ici : https://youtu.be/4GV2gbD0Bj8
 
 ## Utilisation immédiate
 
