@@ -14,6 +14,8 @@ Vous pouve utiliser l'application en vous rendant ici : https://alyra-dapp-votin
 
 Veuillez nous envoyer vos adresses de test par email/discord afin que nous puissions vous enregistrer en tant que voter et démarrer une session.
 
+_`Remarque :` L'utilisation de notre application sur le testnet Goerli rencontre des difficultés dues à la limitation dans la récupération des events. Une solution future peut être la mise en place d'une base de donnée afin de stocker les events au fur et à mesure, ou d'un SubGraph pour requêter la blockchain de manière plus optimale._
+
 ## Utilisation locale
 
 ### Prérequis
