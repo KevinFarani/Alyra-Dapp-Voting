@@ -8,11 +8,8 @@
     "@nomicfoundation/hardhat-toolbox": "^3.0.0",
     "@nomiclabs/hardhat-etherscan": "^3.1.7",
     "@openzeppelin/contracts": "^4.9.2",
-<<<<<<< HEAD
     "dotenv": "^16.3.1",
-=======
     "@openzeppelin/test-helpers": "^0.5.16",
->>>>>>> front
     "hardhat": "^2.16.0"
   }
 }
