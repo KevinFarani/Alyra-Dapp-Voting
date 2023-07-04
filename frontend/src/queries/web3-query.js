@@ -1,7 +1,13 @@
 import { createPublicClient, http, parseAbiItem } from "viem";
-import { hardhat } from "viem/chains";
+import { hardhat, goerli } from "viem/chains";
+
+// USE FOR LOCAL BLOCKCHAIN (HARDHAT)
+//export const viemClient = createPublicClient({
+//  chain: hardhat,
+//  transport: http(),
+//});
 
 export const viemClient = createPublicClient({
-  chain: hardhat,
+  chain: goerli,
   transport: http(),
 });
