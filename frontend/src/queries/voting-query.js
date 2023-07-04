@@ -1,6 +1,6 @@
 // import { ethers } from "ethers";
 
-import { ABI_CONTRACT_VOTING, ADDR_VOTING, HASH_BLOCK_EVENTS } from "constants/web3";
+import { ABI_CONTRACT_VOTING, ADDR_VOTING } from "constants/web3";
 import { prepareWriteContract, writeContract, readContract } from "@wagmi/core";
 import { viemClient } from "./web3-query";
 import { parseAbiItem } from "viem";
@@ -42,22 +42,24 @@ export const _getVoter = async (address) => {
 
 export const _getEventsVoters = async () => {
   const events = await viemClient.getLogs({
+    address: ADDR_VOTING,
     event: parseAbiItem("event VoterRegistered(address voterAddress)"),
     // USE LOCAL BLOCKCHAIN
     // fromBlock: 0n,
-    // toBlock : "latest"
-    blockHash: HASH_BLOCK_EVENTS
+    fromBlock: 9286396n,
+    toBlock : "latest"
   });
   const voters = events.map((voter) => voter.args.voterAddress);
   return voters;
 };
 export const _getEventsProposals = async () => {
   const events = await viemClient.getLogs({
+    address: ADDR_VOTING,
     event: parseAbiItem("event ProposalRegistered(uint proposalId)"),
     // USE LOCAL BLOCKCHAIN
     // fromBlock: 0n,
-    // toBlock : "latest"
-    blockHash: HASH_BLOCK_EVENTS
+    fromBlock: 9286396n,
+    toBlock : "latest"
   });
 
   const proposals = events.map((proposals) =>
@@ -67,11 +69,12 @@ export const _getEventsProposals = async () => {
 };
 export const _getEventsVotes = async () => {
   const events = await viemClient.getLogs({
+    address: ADDR_VOTING,
     event: parseAbiItem("event Voted(address voter, uint256 proposalId)"),
     // USE LOCAL BLOCKCHAIN
     // fromBlock: 0n,
-    // toBlock : "latest"
-    blockHash: HASH_BLOCK_EVENTS
+    fromBlock: 9286396n,
+    toBlock : "latest"
   });
 
   return events;
