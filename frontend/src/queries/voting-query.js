@@ -45,8 +45,7 @@ export const _getEventsVoters = async () => {
     event: parseAbiItem("event VoterRegistered(address voterAddress)"),
     // USE LOCAL BLOCKCHAIN
     // fromBlock: 0n,
-    fromBlock: 9286396n,
-    toBlock: "latest",
+    blockHash: '0xfdfb7c33aa077a0e48753b3f5b0e72237c7692ccb0e4542686a82da388d3d8ea'
   });
   const voters = events.map((voter) => voter.args.voterAddress);
   return voters;
@@ -56,8 +55,7 @@ export const _getEventsProposals = async () => {
     event: parseAbiItem("event ProposalRegistered(uint proposalId)"),
     // USE LOCAL BLOCKCHAIN
     // fromBlock: 0n,
-    fromBlock: 9286396n,
-    toBlock: "latest",
+    blockHash: '0xfdfb7c33aa077a0e48753b3f5b0e72237c7692ccb0e4542686a82da388d3d8ea'
   });
 
   const proposals = events.map((proposals) =>
@@ -70,8 +68,7 @@ export const _getEventsVotes = async () => {
     event: parseAbiItem("event Voted(address voter, uint256 proposalId)"),
     // USE LOCAL BLOCKCHAIN
     // fromBlock: 0n,
-    fromBlock: 9286396n,
-    toBlock: "latest",
+    blockHash: '0xfdfb7c33aa077a0e48753b3f5b0e72237c7692ccb0e4542686a82da388d3d8ea'
   });
 
   return events;
