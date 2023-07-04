@@ -2,7 +2,7 @@
 //export const ADDR_VOTING = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 export const ADDR_VOTING = "0xF34Bb29730A719e91AaAF2556A31221e4bF24703";
 
-import ABI from "../../../backend/artifacts/contracts/Voting.sol/Voting.json";
+import ABI from "../../contract/Voting.json";
 
 export const ABI_CONTRACT_VOTING = ABI.abi;
 
